@@ -20,7 +20,7 @@ import (
 // @title E-commerce Service
 // @version 1.0
 // @description This is a API server for E-commerce service.
-// @host https://e-comm-hl.onrender.com
+// @host e-comm-hl.onrender.com
 // @BasePath /api/v1
 func main() {
 	router := mux.NewRouter()
