@@ -202,7 +202,7 @@ definitions:
     x-enum-varnames:
     - Admin
     - Client
-host: localhost:5000
+host: https://e-comm-hl.onrender.com
 info:
   contact: {}
   description: This is a API server for E-commerce service.
