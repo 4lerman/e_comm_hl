@@ -1,0 +1,86 @@
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    ports:
+      - "5001:5001"
+    env_file:
+      - .env
+    networks:
+      - api-to-service
+      - db
+
+  product-service:
+    build:
+      context: .
+      dockerfile: ./product/Dockerfile
+    ports:
+      - "5002:5002"
+    env_file:
+      - .env
+    networks:
+      - api-to-service
+      - db
+    
+  order-service:
+    build:
+      context: .
+      dockerfile: ./order/Dockerfile
+    ports:
+      - "5003:5003"
+    env_file:
+      - .env
+    networks:
+      - api-to-service
+      - db
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: ./payment/Dockerfile
+    ports:
+      - "5004:5004"
+    env_file:
+      - .env
+    networks:
+      - api-to-service
+      - db
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - api-to-service
+      - db
+    env_file:
+      - .env
+    depends_on:
+      - e_comm_db
+
+  e_comm_db:
+    image: postgres:14
+    container_name: e_comm_db
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_HOST: ${DB_HOST}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - db
+
+networks:
+  api-to-service:
+    driver: bridge
+  db:
+    driver: bridge
+
+volumes:
+  postgres_data:
